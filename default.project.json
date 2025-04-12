@@ -1,0 +1,24 @@
+{
+  "name": "FastNet",
+  "tree": {
+    "$className": "DataModel",
+
+    "ReplicatedStorage": {
+      "FastNet": {
+        "$path": "src"
+      }
+    },
+
+    "ServerScriptService": {
+      "Server": {
+        "$path": "tests/server"
+      }
+    },
+
+    "ReplicatedFirst": {
+      "Client": {
+          "$path": "tests/client"
+      }
+    }
+  }
+}
