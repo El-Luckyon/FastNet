@@ -5,16 +5,15 @@
 -- TypeFactory.luau
 -- This module is responsible for creating and managing buffer types.
 
-export type Encoder<T> = (value: T, size: number) -> ()
-export type Decoder<T> = (buf: buffer, cursor: number) -> T
+export type Encoder<T> = (value: T, size: number?) -> ()
+export type Decoder<T> = (buf: buffer, cursor: number) -> (T, number?)
 
 export type BufferType<T> = {
     sample: T,
     encoder: Encoder<T>,
     decoder: Decoder<T>,
+    size : number?,
 }
-
-local log = require(script.Parent.Parent.Logger)
 
 local hashToType : {[string]: BufferType<any>} = {}
 
@@ -53,7 +52,7 @@ local function hashSample(sample: any): string
     elseif sampleType == "NumberSequence" then
         return "NumberSequence/"..sample.Keypoints[1].Value.R
     elseif sampleType == "NumberSequenceKeypoint" then
-        return "NumberSequenceKeypoint/"..sample.Value.R
+        return "NumberSequenceKeypoint/"..sample.Value
     elseif sampleType == "Ray" then
         return "Ray/"..sample.Origin.X
     elseif sampleType == "Rect" then
@@ -87,22 +86,23 @@ local function hashSample(sample: any): string
     return "null"
 end
 
-local function defineType<T>(sample: T, encoder: Encoder<T>, decoder: Decoder<T>): T
+local function defineType<T>(sample: T, encoder: Encoder<T>, decoder: Decoder<T>, size : number?): T
 
     local hash = hashSample(sample)
 
     if hashToType[hash] then
-        log("Type already defined for hash: %s", hash)
+        error(string.format("Type already defined for hash: %s", hash))
     end
 
     local bufferType: BufferType<T> = {
         sample = sample,
         encoder = encoder,
         decoder = decoder,
+        size = size,
     }
 
     hashToType[hash] = bufferType
-    return sample    
+    return sample
 end
 
 local function getType<T>(sample: T): BufferType<T>?
