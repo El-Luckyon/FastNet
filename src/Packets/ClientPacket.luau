@@ -43,8 +43,8 @@ Remote.OnClientEvent:Connect(function(buf : buffer)
     local n = readu8(buf, 0)
     local offset = 1
     for i = 1, n do
-        local id = readu8(buf, i)        
-        local count = readu8(buf, i + 1)
+        local id = readu8(buf, offset)        
+        local count = readu8(buf, offset + 1)
         offset += 2
 
         local decoder = decoders[id]

@@ -39,13 +39,11 @@ Remote.OnServerEvent:Connect(function(player : Player, buf : buffer)
     local n = readu8(buf, 0)
     local offset = 1
     for i = 1, n do
-        local id = readu8(buf, i)
-        local count = readu8(buf, i + 1)
+        local id = readu8(buf, offset)
+        local count = readu8(buf, offset + 1)
         offset += 2
-
         local decoder = decoders[id]
         local signal = signals[id]  
-        
         for _ = 1, count do
             local data, size = decoder(buf, offset)
             if not size then
@@ -57,7 +55,7 @@ Remote.OnServerEvent:Connect(function(player : Player, buf : buffer)
             else
                 offset += size
             end
-            signal:Fire(player, data)
+            signal.Fire(player, data)
         end
     end
 end)

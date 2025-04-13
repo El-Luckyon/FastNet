@@ -43,11 +43,7 @@ local function readCFrame(buf: buffer, offset: number): CFrame
 	local rx = bufferReadf32(buf, offset + 12)
 	local ry = bufferReadf32(buf, offset + 16)
 	local rz = bufferReadf32(buf, offset + 20)
-
-	local axis = Vector3.new(rx, ry, rz)
-	local angle = axis.Magnitude
-
-	return CFrame.fromAxisAngle(axis, angle) + Vector3.new(x, y, z)
+	return CFrame.new(x, y, z) * CFrame.Angles(rx, ry, rz), 24
 end
 
 local function readVector3(buf: buffer, offset: number): Vector3

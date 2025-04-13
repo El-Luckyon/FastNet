@@ -6,6 +6,9 @@
     "ReplicatedStorage": {
       "FastNet": {
         "$path": "src"
+      },
+      "Tests": {
+        "$path": "tests/shared"
       }
     },
 

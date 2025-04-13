@@ -137,14 +137,13 @@ end
 local function writeCFrame(value: CFrame)
 	local base = reserve(24)
 	local x, y, z = value.X, value.Y, value.Z
-	local axis, angle = value:ToAxisAngle()
-	axis = axis * angle
+	local rx, ry, rz = value:ToEulerAnglesXYZ()
 	bufferWritef32(buf, base + 0, x)
 	bufferWritef32(buf, base + 4, y)
 	bufferWritef32(buf, base + 8, z)
-	bufferWritef32(buf, base + 12, axis.X)
-	bufferWritef32(buf, base + 16, axis.Y)
-	bufferWritef32(buf, base + 20, axis.Z)
+	bufferWritef32(buf, base + 12, rx)
+	bufferWritef32(buf, base + 16, ry)
+	bufferWritef32(buf, base + 20, rz)
 end
 
 local function writeColor3(value: Color3)

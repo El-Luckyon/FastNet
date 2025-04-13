@@ -7,4 +7,5 @@
 -- require(script.writerBenchmark)
 -- require(script.arrayTest)
 -- require(script.globalVsLocalbench)
-require(script.structTest)
+-- require(script.structTest)
+require(script.FullTestServer)
