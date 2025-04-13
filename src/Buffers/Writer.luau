@@ -87,7 +87,7 @@ local function writeString(value: string)
 	local total = l + STRING_HEADER_SIZE
 	local base = reserve(total)
 	STRING_HEADER_WRITER(buf, base, l)
-	bufferWriteString(buf, base, value)
+	bufferWriteString(buf, base + STRING_HEADER_SIZE, value)
 end
 
 local function writeVector2(value: Vector2)
@@ -317,13 +317,17 @@ local function createStruct<T>(sample : T) : T
 			for i = 1, n do
 				local key = keys[i]
 				local decoder = decoders[i]
-
 				local decoded, valSize = decoder(bufToDecode, offset)
 				val[key] = decoded
 				if not valSize then
-					error("Failed to decode struct, decoder did not return a valid size")
-				end
-				offset += valSize
+					valSize = sizes[i]
+					if not valSize then
+						error("Failed to decode struct, decoder did not return a valid size")
+					end
+					offset += valSize
+				else
+					offset += valSize
+				end			
 			end
 			return val :: T, offset - startOffset
 		end

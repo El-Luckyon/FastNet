@@ -5,7 +5,6 @@
 -- Reader.luau
 -- Reading data from buffers for datatypes that are not included in the Roblox buffer library.
 
-local Factory = require(script.Parent.TypeFactory)
 local Config = require(script.Parent.Parent.Config)
 
 local STRING_HEADER_READER = Config.STRING_HEADER_READER
@@ -24,10 +23,10 @@ local bufferLen = buffer.len
 local bufferCopy = buffer.copy
 local bufferCreate = buffer.create
 
-local function readString(buf: buffer, offset: number): string
+local function readString(buf: buffer, offset: number): (string, number)
     local size = STRING_HEADER_READER(buf, offset)
     local str = bufferReadString(buf, offset + STRING_HEADER_SIZE, size)
-    return str
+    return str, size + STRING_HEADER_SIZE
 end
 
 local function readBoolean(buf: buffer, offset: number): boolean

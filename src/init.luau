@@ -38,6 +38,6 @@ return table.freeze{
     string = Factory.new("", Writer.writeString, Reader.string),
 
     array = Writer.array,
-
+    struct = Writer.struct,
 
 }
