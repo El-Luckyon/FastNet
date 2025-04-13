@@ -4,12 +4,25 @@
 
 -- FastNet.luau
 -- Main script starts process and acts as the api.
+local RunService = game:GetService("RunService")
 
 local Writer = require(script.Buffers.Writer)
 local Reader = require(script.Buffers.Reader)
 local Factory = require(script.Buffers.TypeFactory)
 
-local Config = require(script.Config)
+local Types = require(script.Types)
+
+local env : "CLIENT" | "SERVER" = (RunService:IsClient() and "CLIENT") or "SERVER"
+
+local packetConstructor : <T>(sample : T) -> Types.Packet<T>
+
+if env == "CLIENT" then
+    packetConstructor = require(script.Packets.ClientPacket)
+    require(script.Services.ClientService)
+else
+    packetConstructor = require(script.Packets.ServerPacket)
+    require(script.Services.ServerService)
+end
 
 return table.freeze{
     unsigned_8Bit_Integer = Factory.new(1, Writer.writeu8, buffer.readu8, 1),
@@ -40,4 +53,5 @@ return table.freeze{
     array = Writer.array,
     struct = Writer.struct,
 
+    packet = packetConstructor,
 }

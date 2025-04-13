@@ -5,15 +5,11 @@
 -- TypeFactory.luau
 -- This module is responsible for creating and managing buffer types.
 
-export type Encoder<T> = (value: T, size: number?) -> ()
-export type Decoder<T> = (buf: buffer, cursor: number) -> (T, number?)
+local Types = require(script.Parent.Parent.Types)
 
-export type BufferType<T> = {
-    sample: T,
-    encoder: Encoder<T>,
-    decoder: Decoder<T>,
-    size : number?,
-}
+export type Encoder<T> = Types.Encoder<T>
+export type Decoder<T> = Types.Decoder<T>
+export type BufferType<T> = Types.BufferType<T>
 
 local hashToType : {[string]: BufferType<any>} = {}
 

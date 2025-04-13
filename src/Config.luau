@@ -11,7 +11,6 @@ local BUFFER_SCALE_FACTOR = 2
 local STRING_HEADER_SIZE = 2 
 local STRING_HEADER_WRITER = buffer.writeu16
 local STRING_HEADER_READER = buffer.readu16
-
 ----------------------------------------------------------
 
 

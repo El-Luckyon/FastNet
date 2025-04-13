@@ -14,12 +14,8 @@ local bufferReadString = buffer.readstring
 local bufferReadu8 = buffer.readu8
 local bufferReadu16 = buffer.readu16
 local bufferReadu32 = buffer.readu32
-local bufferReadi8 = buffer.readi8
 local bufferReadi16 = buffer.readi16
-local bufferReadi32 = buffer.readi32
 local bufferReadf32 = buffer.readf32
-local bufferReadf64 = buffer.readf64
-local bufferLen = buffer.len
 local bufferCopy = buffer.copy
 local bufferCreate = buffer.create
 
